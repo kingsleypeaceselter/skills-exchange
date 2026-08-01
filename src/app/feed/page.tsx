@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { User } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase/client";
 import { useEffect, useState, useCallback } from "react";
@@ -122,7 +123,7 @@ export default function FeedPage() {
   );
 
   return (
-    <div className="p-4 sm:p-8 max-w-7xl mx-auto min-h-screen bg-gradient-to-b from-gray-50/50 to-white">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto min-h-screen bg-linear-to-b from-gray-50/50 to-white">
       {/* Shining Hero Header with Outstanding Menu */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
         <div className="space-y-1 text-center md:text-left">
@@ -202,9 +203,12 @@ export default function FeedPage() {
                 key={`${profile.id}-${index}`} 
                 className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition border border-gray-200 flex flex-col items-center text-center"
               >
-                <img 
-                  src={profile.avatar_url} 
-                  alt={profile.full_name} 
+                <Image
+                  src={profile.avatar_url || "/default-avatar.png"}
+                  alt={profile.full_name}
+                  width={80}
+                  height={80}
+                  unoptimized
                   className="w-20 h-20 rounded-full object-cover mb-4 border"
                 />
                 <h3 className="text-xl font-bold text-gray-800">{profile.full_name}</h3>
@@ -215,9 +219,11 @@ export default function FeedPage() {
                 
                 <div className="flex items-center justify-center gap-2 mt-1">
                   {countryCode && (
-                    <img 
-                      src={`https://flagcdn.com/24x18/${countryCode}.png`} 
-                      alt={profile.country} 
+                    <Image
+                      src={`https://flagcdn.com/24x18/${countryCode}.png`}
+                      alt={profile.country}
+                      width={24}
+                      height={18}
                       className="w-6 h-4 rounded-sm"
                     />
                   )}

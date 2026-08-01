@@ -1,6 +1,7 @@
 "use client";
 
 import { Oval } from "react-loader-spinner";
+import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase/client";
@@ -86,7 +87,7 @@ export default function ProfilePage() {
         id: user.id,
         full_name: data?.full_name || "",
         phone_number: data?.phone_number || "",
-        email: user.email || formData.email || "",
+        email: user.email || "",
         avatar_url: data?.avatar_url || "",
         skill: data?.skill || "",
         country: data?.country || "",
@@ -171,10 +172,13 @@ export default function ProfilePage() {
       {isEditing ? (
         <div className="space-y-4">
           <div className="flex flex-col items-center space-y-2">
-            <img 
-              src={formData.avatar_url || "https://via.placeholder.com/150"} 
-              className="w-24 h-24 rounded-full object-cover border" 
-              alt="Avatar Preview" 
+            <Image
+              src={formData.avatar_url || "https://via.placeholder.com/150"}
+              width={96}
+              height={96}
+              className="w-24 h-24 rounded-full object-cover border"
+              alt="Avatar Preview"
+              unoptimized
             />
             <button type="button" onClick={openCloudinaryWidget} className="text-blue-500 underline text-sm">
               Change Image
@@ -195,10 +199,13 @@ export default function ProfilePage() {
         </div>
       ) : (
         <div className="space-y-4">
-          <img 
-            src={profile.avatar_url || "https://via.placeholder.com/150"} 
-            className="w-24 h-24 rounded-full object-cover border" 
-            alt="Avatar" 
+          <Image
+            src={profile.avatar_url || "https://via.placeholder.com/150"}
+            width={96}
+            height={96}
+            className="w-24 h-24 rounded-full object-cover border"
+            alt="Avatar"
+            unoptimized
           />
           <p><strong>Full Name:</strong> {profile.full_name || "Not set"}</p>
           <p><strong>Email:</strong> {profile.email || "Not set"}</p>

@@ -1,5 +1,3 @@
-import NavBar from "../components/NavBar";
-
 import './globals.css';
 import Script from 'next/script'; // Import Next.js Script component
 

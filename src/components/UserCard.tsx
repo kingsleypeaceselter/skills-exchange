@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../lib/supabase/client';
 import { Profile } from '../types/profile'; 
@@ -44,10 +45,13 @@ export default function UserCard({ profile }: { profile: Profile & { id?: string
 
   return (
     <div className="border p-4 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center text-center">
-      <img 
-        src={profile.avatar_url || ''} 
-        alt={profile.full_name} 
-        className="w-20 h-20 rounded-full mb-4 object-cover border" 
+      <Image
+        src={profile.avatar_url || ''}
+        alt={profile.full_name}
+        width={80}
+        height={80}
+        className="w-20 h-20 rounded-full mb-4 object-cover border"
+        unoptimized
       />
       <h2 className="font-bold text-lg">{profile.full_name}</h2>
       
@@ -57,10 +61,13 @@ export default function UserCard({ profile }: { profile: Profile & { id?: string
       
       <div className="flex items-center justify-center gap-2 mt-2">
         {countryCode && (
-          <img 
-            src={`https://flagcdn.com/24x18/${countryCode}.png`} 
-            alt={profile.country} 
+          <Image
+            src={`https://flagcdn.com/24x18/${countryCode}.png`}
+            alt={profile.country}
+            width={24}
+            height={18}
             className="w-6 h-4 rounded-sm"
+            unoptimized
           />
         )}
         <span className="text-sm text-gray-500">{profile.country}</span>

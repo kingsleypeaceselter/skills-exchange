@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { supabase } from "../lib/supabase/client";
 import { getProfileById } from "../lib/services/profileService";
@@ -44,7 +45,7 @@ export default function NavBar() {
         <Link href="/users" className={pathname === "/users" ? "font-bold text-blue-600" : ""}>Users</Link>
         <Link href="/chat" className={pathname === "/chat" ? "font-bold text-blue-600" : ""}>Chat</Link>
         {avatarUrl ? (
-          <img src={avatarUrl} alt="Profile" className="w-8 h-8 rounded-full" />
+          <Image src={avatarUrl} alt="Profile" width={32} height={32} className="rounded-full" />
         ) : (
           <Link href="/profile">Profile</Link>
         )}
