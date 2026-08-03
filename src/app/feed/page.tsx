@@ -231,6 +231,7 @@ export default function FeedPage() {
                   unoptimized
                   className="w-20 h-20 rounded-full object-cover mb-4 border"
                 />
+
                 <h3 className="text-xl font-bold text-gray-800">{profile.full_name}</h3>
                 
                 <p className="text-sm text-gray-500 mt-0.5">{profile.email || "No email provided"}</p>
@@ -245,6 +246,7 @@ export default function FeedPage() {
                       width={24}
                       height={18}
                       className="w-6 h-4 rounded-sm"
+                      unoptimized
                     />
                   )}
                   <span className="text-sm text-gray-500">{profile.country}</span>
