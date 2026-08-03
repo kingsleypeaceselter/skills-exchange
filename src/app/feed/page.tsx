@@ -20,14 +20,34 @@ interface ProfileCard {
 const PAGE_SIZE = 6;
 
 const getCountryCode = (countryName: string): string => {
-  const normalized = countryName?.trim().toUpperCase();
+  if (!countryName) return "";
+  
+  // Clean up and convert to lowercase
+  const normalized = countryName.trim().toLowerCase();
+  
   const codes: { [key: string]: string } = {
-    "USA": "us", "GERMANY": "de", "JAPAN": "jp", "MOROCCO": "ma",
-    "IRELAND": "ie", "GHANA": "gh", "EGYPT": "eg", "SPAIN": "es",
-    "UK": "gb", "CANADA": "ca", "NIGERIA": "ng",
-    "RUSSIA": "ru", "SOUTH KOREA": "kr", "FRANCE": "fr", 
-    "SAUDI ARABIA": "sa", "INDIA": "in", "BRAZIL": "br"
+    "usa": "us",
+    "united states": "us",
+    "germany": "de",
+    "japan": "jp",
+    "morocco": "ma",
+    "ireland": "ie",
+    "ghana": "gh",
+    "egypt": "eg",
+    "spain": "es",
+    "uk": "gb",
+    "united kingdom": "gb",
+    "canada": "ca",
+    "nigeria": "ng",
+    "russia": "ru",
+    "south korea": "kr",
+    "korea": "kr",
+    "france": "fr",
+    "saudi arabia": "sa",
+    "india": "in",
+    "brazil": "br"
   };
+
   return codes[normalized] || "";
 };
 
