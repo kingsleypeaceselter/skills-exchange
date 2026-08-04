@@ -1,58 +1,16 @@
 "use client";
-import Image from "next/image";
 import { User } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase/client";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import AddSkillForm from "../../components/AddSkillForm";
-
-interface ProfileCard {
-  id: string;
-  full_name: string;
-  email?: string;
-  skill: string;
-  country: string;
-  hourly_rate: number;
-  avatar_url?: string;
-  isHardcoded?: boolean;
-}
+import UserCard from "../../components/UserCard"; // Import your working card component
+import { Profile } from "../../types/profile";
 
 const PAGE_SIZE = 6;
 
-const getCountryCode = (countryName: string): string => {
-  if (!countryName) return "";
-  
-  // Clean up and convert to lowercase
-  const normalized = countryName.trim().toLowerCase();
-  
-  const codes: { [key: string]: string } = {
-    "usa": "us",
-    "united states": "us",
-    "germany": "de",
-    "japan": "jp",
-    "morocco": "ma",
-    "ireland": "ie",
-    "ghana": "gh",
-    "egypt": "eg",
-    "spain": "es",
-    "uk": "gb",
-    "united kingdom": "gb",
-    "canada": "ca",
-    "nigeria": "ng",
-    "russia": "ru",
-    "south korea": "kr",
-    "korea": "kr",
-    "france": "fr",
-    "saudi arabia": "sa",
-    "india": "in",
-    "brazil": "br"
-  };
-
-  return codes[normalized] || "";
-};
-
 export default function FeedPage() {
-  const [profiles, setProfiles] = useState<ProfileCard[]>([]);
+  const [profiles, setProfiles] = useState<(Profile & { id: string; email?: string })[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
@@ -72,22 +30,20 @@ export default function FeedPage() {
       
       if (error) throw error;
 
-      const formattedProfiles: ProfileCard[] = (data || []).map(p => ({
-        id: p.id,
+      const formattedProfiles = (data || []).map(p => ({
+        ...p,
         full_name: p.full_name || "Anonymous User",
         email: p.email || "",
         skill: p.skill || "General Skill",
         country: p.country || "Not specified",
         hourly_rate: p.hourly_rate || 0,
         avatar_url: p.avatar_url || "https://via.placeholder.com/150",
-        isHardcoded: p.email?.includes('mock') || p.email?.endsWith('@locallink.dev') || false,
       }));
 
       if (formattedProfiles.length < PAGE_SIZE) {
         setHasMore(false);
       }
 
-      // Updated state setter to prevent duplicates
       setProfiles(prev => {
         const combined = reset ? formattedProfiles : [...prev, ...formattedProfiles];
         return combined.filter((profile, index, self) => 
@@ -124,27 +80,13 @@ export default function FeedPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasMore, loadingMore, page, fetchProfiles, searchTerm]);
 
-  const handleCardClick = (profile: ProfileCard) => {
-    if (profile.isHardcoded) {
-      alert("This user is not available at the moment.");
-      return;
-    }
-
-    if (!currentUser) {
-      router.push("/login");
-      return;
-    }
-
-    router.push(`/chat?userId=${profile.id}`);
-  };
-
   const filteredProfiles = profiles.filter(profile =>
-    profile.skill.toLowerCase().includes(searchTerm.toLowerCase())
+    profile.skill?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="p-4 sm:p-8 max-w-7xl mx-auto min-h-screen bg-linear-to-b from-gray-50/50 to-white">
-      {/* Shining Hero Header with Outstanding Menu */}
+      {/* Hero Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
         <div className="space-y-1 text-center md:text-left">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -153,7 +95,6 @@ export default function FeedPage() {
           <p className="text-sm text-gray-500">Discover and connect with top local talent instantly.</p>
         </div>
         
-        {/* Outstanding Header Navigation Actions */}
         <div className="flex items-center gap-3">
           {currentUser ? (
             <>
@@ -213,59 +154,12 @@ export default function FeedPage() {
         />
       </div>
       
+      {/* Grid rendering using UserCard component directly */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProfiles.length > 0 ? (
-          filteredProfiles.map((profile, index) => {
-            const countryCode = getCountryCode(profile.country);
-
-            return (
-              <div 
-                key={`${profile.id}-${index}`} 
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition border border-gray-200 flex flex-col items-center text-center"
-              >
-                <Image
-                  src={profile.avatar_url || "/default-avatar.png"}
-                  alt={profile.full_name}
-                  width={80}
-                  height={80}
-                  unoptimized
-                  className="w-20 h-20 rounded-full object-cover mb-4 border"
-                />
-
-                <h3 className="text-xl font-bold text-gray-800">{profile.full_name}</h3>
-                
-                <p className="text-sm text-gray-500 mt-0.5">{profile.email || "No email provided"}</p>
-                
-                <p className="text-blue-600 font-medium mt-1">{profile.skill}</p>
-                
-                <div className="flex items-center justify-center gap-2 mt-2">
-                       {countryCode && (
-                         <Image
-                           src={`https://flagcdn.com/24x18/${countryCode}.png`}
-                           alt={profile.country}
-                           width={24}
-                           height={18}
-                           className="w-6 h-4 rounded-sm"
-                           unoptimized
-                         />
-                       )}
-                       <span className="text-sm text-gray-500">{profile.country}</span>
-                     </div>
-
-                <div className="mt-4 pt-4 border-t border-gray-100 w-full flex justify-between items-center text-sm">
-                  <span className="text-gray-600">Rate:</span>
-                  <span className="text-green-600 font-bold">${profile.hourly_rate}/hr</span>
-                </div>
-
-                <button 
-                  onClick={() => handleCardClick(profile)}
-                  className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition font-medium"
-                >
-                 <span>💬</span> Message
-                </button>
-              </div>
-            );
-          })
+          filteredProfiles.map((profile, index) => (
+            <UserCard key={`${profile.id}-${index}`} profile={profile} />
+          ))
         ) : (
           <p className="col-span-full text-center text-gray-500 py-8">No experts found matching that skill.</p>
         )}
