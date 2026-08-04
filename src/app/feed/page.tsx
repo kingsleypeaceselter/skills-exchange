@@ -239,18 +239,17 @@ export default function FeedPage() {
                 <p className="text-blue-600 font-medium mt-1">{profile.skill}</p>
                 
                 <div className="flex items-center justify-center gap-2 mt-1">
-                  {countryCode && (
-                    <Image
-                      src={`https://flagcdn.com/24x18/${countryCode}.png`}
-                      alt={profile.country}
-                      width={24}
-                      height={18}
-                      className="w-6 h-4 rounded-sm"
-                      unoptimized
-                    />
-                  )}
-                  <span className="text-sm text-gray-500">{profile.country}</span>
-                </div>
+  {countryCode && (
+    <img
+      src={`https://flagcdn.com/24x18/${countryCode}.png`}
+      alt={profile.country}
+      width={24}
+      height={18}
+      className="w-6 h-4 rounded-sm object-cover"
+    />
+  )}
+  <span className="text-sm text-gray-500">{profile.country}</span>
+</div>
 
                 <div className="mt-4 pt-4 border-t border-gray-100 w-full flex justify-between items-center text-sm">
                   <span className="text-gray-600">Rate:</span>
