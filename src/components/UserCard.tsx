@@ -78,13 +78,13 @@ export default function UserCard({ profile }: { profile: Profile & { id?: string
       <div className="flex items-center justify-center gap-2 mt-2">
         {countryCode && (
           <Image
-            src={`https://flagcdn.com/w40/${countryCode}.png`}
-            alt={profile.country}
-            width={40}
-            height={30}
-            className="w-10 h-7 rounded-sm"
-            unoptimized
-          />
+  src={`https://flagcdn.com/h20/${countryCode}.png`}
+  alt={profile.country}
+  width={24}
+  height={18}
+  className="w-6 h-4 rounded-sm object-cover"
+  unoptimized
+/>
         )}
         <span className="text-sm text-gray-500">{profile.country}</span>
       </div>
