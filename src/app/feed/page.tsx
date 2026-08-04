@@ -1,10 +1,11 @@
 "use client";
+
 import { User } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase/client";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import AddSkillForm from "../../components/AddSkillForm";
-import UserCard from "../../components/UserCard"; // Import your working card component
+import UserCard from "../../components/UserCard";
 import { Profile } from "../../types/profile";
 
 const PAGE_SIZE = 6;
@@ -86,7 +87,6 @@ export default function FeedPage() {
 
   return (
     <div className="p-4 sm:p-8 max-w-7xl mx-auto min-h-screen bg-linear-to-b from-gray-50/50 to-white">
-      {/* Hero Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
         <div className="space-y-1 text-center md:text-left">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -154,7 +154,6 @@ export default function FeedPage() {
         />
       </div>
       
-      {/* Grid rendering using UserCard component directly */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProfiles.length > 0 ? (
           filteredProfiles.map((profile, index) => (
