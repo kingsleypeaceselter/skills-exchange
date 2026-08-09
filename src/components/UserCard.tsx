@@ -77,14 +77,14 @@ export default function UserCard({ profile }: { profile: Profile & { id?: string
       
       <div className="flex items-center justify-center gap-2 mt-2">
   {countryCode && countryCode.trim() !== "" ? (
-    <Image
-      src={`https://flagcdn.com/h24/${countryCode}.png`}
-      alt={profile.country || "Country flag"}
-      width={24}
-      height={18}
-      className="w-6 h-4 rounded-sm object-cover"
-      unoptimized
-    />
+   <Image
+  src={`https://flagcdn.com/h24/${countryCode.toLowerCase()}.png`}
+  alt={profile.country || "Country flag"}
+  width={24}
+  height={18}
+  className="w-6 h-4 rounded-sm object-cover"
+  unoptimized
+/>
   ) : null}
   <span className="text-sm text-gray-500">{profile.country || "Not specified"}</span>
 </div>
