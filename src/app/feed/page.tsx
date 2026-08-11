@@ -153,6 +153,17 @@ export default function FeedPage() {
           className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
+
+      {/* Safety Caution Notice Banner */}
+<div className="mb-8 p-4 sm:p-6 bg-amber-50 border border-amber-200 rounded-2xl shadow-xs flex items-start gap-4">
+  <div className="text-2xl">⚠️</div>
+  <div>
+    <h4 className="text-sm font-bold text-amber-900 uppercase tracking-wide">Safety & Agreement Notice</h4>
+    <p className="text-sm text-amber-800 mt-1">
+      Please ensure you make a concrete, clear agreement regarding terms, payment, and deliverables with members before meeting in person or accepting any offers. Your safety and security come first!
+    </p>
+  </div>
+</div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProfiles.length > 0 ? (
